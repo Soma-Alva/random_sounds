@@ -6,6 +6,7 @@ import 'package:random_sounds/providers/event_model.dart';
 
 void main() async {
   await initializeDateFormatting('es_ES', null);
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     ChangeNotifierProvider(
       create: (context) => EventModel(),

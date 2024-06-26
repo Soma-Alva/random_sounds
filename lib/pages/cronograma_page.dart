@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import '../helper/database_helper.dart';
 
 class CronogramaPage extends StatelessWidget {
-  final String event;
-  final List<Map<String, String>> cronograma;
+  final Event event;
 
-  const CronogramaPage({super.key, required this.event, required this.cronograma});
+  const CronogramaPage({Key? key, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cronograma de $event'),
+        title: Text(event.title),
         backgroundColor: Colors.blue,
         titleTextStyle: const TextStyle(
           color: Colors.white,
-          fontSize: 24.0,
+          fontSize: 20.0,
         ),
         leading: IconButton(
           onPressed: () {
@@ -26,85 +26,75 @@ class CronogramaPage extends StatelessWidget {
           ),
         ),
       ),
-      body: CronogramaTable(cronograma: cronograma),
-    );
-  }
-}
-
-class CronogramaTable extends StatelessWidget {
-  final List<Map<String, String>> cronograma;
-
-  const CronogramaTable({super.key, required this.cronograma});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Divider(
-            color: Colors.grey,
-            thickness: 1,
+      body: Column(
+        children: [
+          const SizedBox(height: 30.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1.0,
+            ),
           ),
-        ),
-        const Text(
-          'Cronograma de actividades',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0, top: 20.0, bottom: 20.0, right: 15.0),
+            child: Text(
+              'Cronograma de actividades',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Divider(
-            color: Colors.grey,
-            thickness: 1,
+          const Padding(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1.0,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        DataTable(
-          columns: const [
-            DataColumn(
+          const SizedBox(height: 30.0),
+          DataTable(
+            columns: const [
+              DataColumn(
                 label: Text(
                   'Posición',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,))
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-            DataColumn(         
+              ),
+              DataColumn(
                 label: Text(
                   'Acto',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,))
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-          ],
-          rows: cronograma.map((evento) {
-            return DataRow(
-              cells: [
-                DataCell(
+              ),
+            ],
+            rows: event.cronograma
+                .map(
+                  (item) => DataRow(
+                    cells: [
+                      DataCell(
                         Text(
-                          evento['Posición']!,
+                          item['Posición']!,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
-                          )
-                        )
+                          ),
+                        ),
                       ),
-                DataCell(
+                      DataCell(
                         Text(
-                          evento['Acto']!,
-                          style: const TextStyle(
-                            fontSize: 17,
-                          ),  
-                        )
+                          item['Acto']!,
+                          style: const TextStyle(fontSize: 17),
+                        ),
                       ),
-              ],
-            );
-          }).toList(),
-        ),
-      ],
+                    ],
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }

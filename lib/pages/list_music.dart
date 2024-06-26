@@ -10,12 +10,13 @@ import 'package:random_sounds/pages/home_page.dart';
 import 'package:random_sounds/providers/event_model.dart';
 
 String nombreDiaTemp = '';
+List<Map<String, String>> cronogramaTemp = [];
 
 class ListMusic extends StatelessWidget {
   const ListMusic({super.key});
 
   Future<String> fetchData() async {
-    await Future.delayed(const Duration(seconds: 1)); // Simulando un retraso en la carga de datos
+    await Future.delayed(const Duration(seconds: 3)); // Simulando un retraso en la carga de datos
     return "Datos cargados";
   }
 
@@ -58,7 +59,7 @@ class ListMusic extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Tu canciones del día ',
+                  const Text('Tus canciones del día ',
                     style: TextStyle(
                       fontSize: 24.0,
                   )),
@@ -83,11 +84,17 @@ class ListMusic extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        final now = DateTime.now();
+                        final formatter = DateFormat('dd/MM/yy HH:mm');
+                        final formattedDate = formatter.format(now);
+
                         String capitalizedNombreDiaTemp = nombreDiaTemp.substring(0, 1).toUpperCase() + nombreDiaTemp.substring(1);
-                        Provider.of<EventModel>(context, listen: false).addEvent(capitalizedNombreDiaTemp);
-                        Navigator.push(
-                          context, 
-                          CupertinoPageRoute(builder: (context) => const HomePage())
+                        String finalName = 'Evento $capitalizedNombreDiaTemp - $formattedDate';
+                        Provider.of<EventModel>(context, listen: false).addEvent(finalName, cronogramaTemp);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          CupertinoPageRoute(builder: (context) => const HomePage()),
+                          (route) => false, 
                         );
                       },
                       child: const Text(
@@ -113,7 +120,6 @@ class NombreDelDiaActual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtiene la fecha actual
     DateTime now = DateTime.now();
     // Formatea la fecha para obtener el nombre del día
     String nombreDia = DateFormat('EEEE', 'es_ES').format(now);
@@ -143,6 +149,8 @@ class CronogramaTable extends StatelessWidget {
       {'Posición': '6', 'Acto': listSoundsAdoracion[random.nextInt(listSoundsAdoracion.length)]},
       {'Posición': '7', 'Acto': listSoundsAdoracion[random.nextInt(listSoundsAdoracion.length)]},
     ];
+
+    cronogramaTemp = cronograma;
 
     return SingleChildScrollView(
       child: DataTable(
