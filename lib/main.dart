@@ -3,10 +3,18 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:random_sounds/pages/home_page.dart';
 import 'package:random_sounds/providers/event_model.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   await initializeDateFormatting('es_ES', null);
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Inicializa la base de datos de zonas horarias
+  tz.initializeTimeZones();
+  const String timeZoneName = 'America/Managua';
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => EventModel(),

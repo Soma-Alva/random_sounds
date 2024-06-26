@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:random_sounds/helper/list_sounds.dart';
 import 'package:random_sounds/pages/home_page.dart';
 import 'package:random_sounds/providers/event_model.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 String nombreDiaTemp = '';
 List<Map<String, String>> cronogramaTemp = [];
@@ -84,7 +86,9 @@ class ListMusic extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        final now = DateTime.now();
+                        final now = tz.TZDateTime.now(tz.local);
+                        
+                        // Formatea la fecha y la hora
                         final formatter = DateFormat('dd/MM/yy HH:mm');
                         final formattedDate = formatter.format(now);
 
