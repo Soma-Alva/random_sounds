@@ -71,7 +71,8 @@ class CardEvent extends StatelessWidget {
                         },
                         child: ListTile(
                           title: Text(event.title),
-                          subtitle: const Text('Hora: 7:00 PM'),
+                          //subtitle: const Text('Hora: 7:00 PM'),
+                          subtitle: Text('ID - ${event.id}' ),
                           leading: const Icon(Icons.event),
                           trailing: const Icon(Icons.more_vert),
                           onTap: () {

@@ -2,7 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Event {
-  final int? id;
+  int? id;
   final String title;
   final List<Map<String, String>> cronograma;
 
@@ -28,8 +28,8 @@ class Event {
         };
       }).toList(),
     );
-  }
-}
+  }}
+
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -57,14 +57,14 @@ class DatabaseHelper {
     );
   }
 
-  Future<void> insertEvent(Event event) async {
+  Future<int> insertEvent(Event event) async {
     final db = await database;
-    await db.insert('events', event.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    return await db.insert('events', event.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<List<Event>> getEvents() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('events');
+    final List<Map<String, dynamic>> maps = await db.query('events', orderBy: 'id DESC'); // Ordenar por ID descendente
     return List.generate(maps.length, (i) {
       return Event.fromMap(maps[i]);
     });

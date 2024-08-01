@@ -19,8 +19,8 @@ class EventModel extends ChangeNotifier {
 
   Future<void> addEvent(String title, List<Map<String, String>> cronograma) async {
     final event = Event(title: title, cronograma: cronograma);
-    await _databaseHelper.insertEvent(event);
-    _events.add(event);
+    event.id = await _databaseHelper.insertEvent(event); // Obtener el ID del evento insertado
+    _events.insert(0, event); // Insertar al principio de la lista
     notifyListeners();
   }
 

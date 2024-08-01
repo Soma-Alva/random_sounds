@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:random_sounds/helper/list_sounds.dart';
 import 'package:random_sounds/pages/home_page.dart';
 import 'package:random_sounds/providers/event_model.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 String nombreDiaTemp = '';
